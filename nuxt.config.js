@@ -18,18 +18,19 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: 'blue' },
   /*
   ** Global CSS
   */
   css: [
-    'element-ui/lib/theme-chalk/index.css'
+    'element-ui/lib/theme-chalk/index.css',
+    '@/theme/index.scss'
   ],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '@/plugins/element-ui'
+    '@/plugins/globals'
   ],
   /*
   ** Nuxt.js modules
@@ -55,4 +56,4 @@ module.exports = {
     extend(config, ctx) {
     }
   }
-}
+};
