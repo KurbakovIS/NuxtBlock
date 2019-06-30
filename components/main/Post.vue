@@ -5,22 +5,22 @@
     shadow="hover"
   >
     <header slot="header" class="post-header">
-      <h3>Post title</h3>
+      <h3>{{post.title}}</h3>
       <small>
         <i class="el-icon-time"></i>
-        {{new Date().toLocaleString()}}
+        {{new Date(post.date).toLocaleString()}}
       </small>
     </header>
     <div class="post-body">
       <img
-        src="http://animalworld.com.ua/images/2014/July/Foto/Rduj/Rdj_1.jpg"
+        :src="post.imageUrl"
         alt="" class="post-img">
     </div>
     <footer class="post-footer">
       <el-button round @click="openPost">Открыть</el-button>
 
       <span>
-      <i class="el-icon-message">12</i>
+      <i class="el-icon-message"> {{ post.comments.length}}</i>
       </span>
     </footer>
   </el-card>
@@ -29,9 +29,15 @@
 <script>
   export default {
     name: "Post",
+    props: {
+      post: {
+        type: Object,
+        required: true
+      }
+    },
     methods: {
       openPost() {
-        const id = 'test-id';
+        const id = this.post._id;
         this.$router.push(`/post/${id}`)
       }
     }

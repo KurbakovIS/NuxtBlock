@@ -2,7 +2,7 @@
   <article class="post">
     <header class="post-header">
       <div class="post-title">
-        <h1>Post title</h1>
+        <h1>{{post.title}}</h1>
         <nuxt-link to="/">
           <i class="el-icon-back"></i>
         </nuxt-link>
@@ -10,34 +10,30 @@
       <div class="post-info">
         <small>
           <i class="el-icon-time"></i>
-          {{new Date().toLocaleString()}}
+          {{new Date(post.date).toLocaleString()}}
         </small>
         <small>
-          <i class="el-icon-view"></i>
-          42
+          <i class="el-icon-view"> {{post.views}}</i>
         </small>
       </div>
       <div class="post-img">
-        <img src="http://animalworld.com.ua/images/2014/July/Foto/Rduj/Rdj_1.jpg" alt="">
+        <img :src="post.imageUrl"
+             alt="post image">
       </div>
     </header>
     <main class="post-content">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi corporis ducimus, eos fugiat id incidunt natus
-        non perspiciatis placeat porro possimus quam quia sed, tenetur, veniam! Doloribus exercitationem officia
-        ullam.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores commodi corporis dolorem doloremque esse
-        est eveniet harum hic ipsum iste maiores nisi non nostrum numquam odio perferendis sapiente temporibus,
-        voluptate?</p>
+      <vue-markdown>{{post.text}}</vue-markdown>
     </main>
     <footer>
       <app-comment-form
         v-if="canAddComment"
+        :postId="post._id"
         @created="createCommentHandler"/>
 
-      <div class="comments" v-if="true">
+      <div class="comments" v-if="post.comments.length">
         <app-comment
-          v-for="comment in 4"
-          :key="comment"
+          v-for="comment in post.comments"
+          :key="comment._id"
           :comment="comment">
         </app-comment>
       </div>
@@ -51,7 +47,6 @@
   import AppCommentForm from '@/components/main/CommentForm'
 
   export default {
-    name: "_id",
     data() {
       return {
         canAddComment: true
@@ -60,8 +55,14 @@
     validate({params}) {
       return !!params.id
     },
+    async asyncData({store, params}) {
+      const post = await store.dispatch('post/fetchById', params.id);
+      await store.dispatch('post/addView', post);
+      return {post: {...post, views: ++post.views}}
+    },
     methods: {
-      createCommentHandler() {
+      createCommentHandler(comment) {
+        this.post.comments.unshift(comment);
         this.canAddComment = false
       }
     },

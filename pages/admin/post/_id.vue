@@ -49,7 +49,6 @@
 
 <script>
   export default {
-    name: "_id",
     head() {
       return {
         title: `Пост | ${this.post.title}`
@@ -77,6 +76,9 @@
 
         },
       }
+    },
+    mounted() {
+      this.controls.text = this.post.text
     },
     methods: {
       onSubmit() {

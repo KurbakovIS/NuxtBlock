@@ -57,8 +57,7 @@
     layout: 'admin',
     middleware: ['admin-auth'],
     async asyncData({store}) {
-      const posts = await store.dispatch('post/fetchAdmin');
-      return {posts}
+      return await store.dispatch('post/fetchAdmin')
     },
     methods: {
       open(id) {
