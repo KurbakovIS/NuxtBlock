@@ -36,6 +36,9 @@
   export default {
     name: "login",
     layout: 'empty',
+    head:{
+      title:`Вход в панель администратора | ${process.env.appName}`
+    },
     data() {
       return {
         loading: false,

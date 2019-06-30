@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <h1>navigation</h1>
+    <h1>Blog</h1>
   </nav>
 </template>
 

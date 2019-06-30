@@ -102,7 +102,15 @@ export const actions = {
       commit('setError', e, {root: true});
       throw e
     }
-  }
+  },
+  async getAnalytics({commit}){
+    try {
+      return await this.$axios.$get(`/api/post/admin/get/analytics`)
+    } catch (e) {
+      commit('setError', e, {root: true});
+      throw e
+    }
+  },
 };
 
 export const getters = {};
